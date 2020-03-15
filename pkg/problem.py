@@ -47,17 +47,8 @@ class Problem:
         if actions[action] == -1:
             return state
 
-        if action == NO or action == N or action == NE:
-            row -= 1
-        elif action == SE or action == S or action == SO:
-            row += 1
-
-        if action == NE or action == L or action == SE: #vai para leste
-            col += 1
-        elif action == SO or action == O or action == NO:
-            col += 1
-
-        # @TODO T_AAFP
+        row += rowIncrement[action]
+        col += colIncrement[action]
         
         return State(row, col)
 
@@ -122,8 +113,6 @@ class Problem:
         if state.col > 0 and state.row > 0:
             if self.mazeBelief.walls[state.row - 1][state.col - 1] == 1:
                 actions[NO] = -1
-
-        # @TODO T_AAFP
 
         return actions
 
