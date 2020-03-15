@@ -43,6 +43,10 @@ class Problem:
         row = state.row
         col = state.col
 
+        actions = self.possibleActions(state)
+        if actions[action] == -1:
+            return state
+
         if action == NO or action == N or action == NE:
             row -= 1
         elif action == SE or action == S or action == SO:
@@ -69,29 +73,43 @@ class Problem:
         row = state.row
         col = state.col
 
-        if state.row == self.maxRows: #não vai para o sul
-            actions[3] = -1
-            actions[4] = -1
-            actions[5] = -1
-        elif state.row == 0: #não vai para o norte
-            actions[-1] = -1
-            actions[0] = -1
-            actions[1] = -1
+        if state.row == self.maxRows: 
+            actions[SE] = -1
+            actions[S] = -1
+            actions[SO] = -1
+        elif state.row == 0: 
+            actions[NO] = -1
+            actions[N] = -1
+            actions[NE] = -1
 
-        if state.col == self.maxColumns: #não vai para o leste
-            actions[1] = -1
-            actions[2] = -1
-            actions[3] = -1
-        elif state.col == 0: #não vai para o oeste
-            actions[-1] = -1
-            actions[-2] = -1
-            actions[-3] = -1
+        if state.col == self.maxColumns: 
+            actions[NE] = -1
+            actions[L] = -1
+            actions[SE] = -1
+        elif state.col == 0:
+            actions[SO] = -1
+            actions[O] = -1
+            actions[NO] = -1
 
-        #if self.maze.walls[self.row + 1] == 1: #não vai para o sul
-        #    actions[4] = -1
+        if self.mazeBelief.walls[state.col][state.row + 1] == 1:
+            actions[S] = -1
+        if self.mazeBelief.walls[state.col][state.row - 1] == 1:
+            actions[N] = -1
         
+        if self.mazeBelief.walls[state.col + 1][state.row] == 1:
+            actions[L] = -1
+        if self.mazeBelief.walls[state.col - 1][state.row] == 1:
+            actions[O] = -1
+        
+        if self.mazeBelief.walls[state.col + 1][state.row + 1] == 1:
+            actions[SE] = -1
+        if self.mazeBelief.walls[state.col + 1][state.row - 1] == 1:
+            actions[NE] = -1
 
-    
+        if self.mazeBelief.walls[state.col - 1][state.row + 1] == 1:
+            actions[SO] = -1
+        if self.mazeBelief.walls[state.col - 1][state.row - 1] == 1:
+            actions[NO] = -1
 
         # @TODO T_AAFP 
 
@@ -125,5 +143,6 @@ class Problem:
         """Testa se alcançou o estado objetivo.
         @param currentState: estado atual.
         @return True se o estado atual for igual ao estado objetivo."""
-         # @TODO T_AAFP
-        return true # Utilizar Operador de igualdade definido em __eq__ no arquivo state.py
+        if self.goalState == currentState:
+            return true # Utilizar Operador de igualdade definido em __eq__ no arquivo state.py
+        return false
