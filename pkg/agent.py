@@ -15,11 +15,21 @@ class Agent:
         self.model = model
 
         self.prob = Problem()
-        # @TODO T_AAFP - criar crencas sobre as pareded do labirinto
+
         self.prob.createMaze(9, 9)
         self.prob.mazeBelief.putVerticalWall(0,1,0)
-        # ...
-
+        self.prob.mazeBelief.putVerticalWall(0,0,1)
+        self.prob.mazeBelief.putHorizontalWall(4,6,0)
+        self.prob.mazeBelief.putVerticalWall(0,1,7)
+        self.prob.mazeBelief.putHorizontalWall(3,5,2)
+        self.prob.mazeBelief.putHorizontalWall(3,5,3)
+        self.prob.mazeBelief.putHorizontalWall(7,7,3)
+        self.prob.mazeBelief.putHorizontalWall(1,2,5)
+        self.prob.mazeBelief.putVerticalWall(6,7,1)
+        self.prob.mazeBelief.putVerticalWall(6,7,4)
+        self.prob.mazeBelief.putVerticalWall(5,6,5)
+        self.prob.mazeBelief.putVerticalWall(5,7,7)
+        self.prob.mazeBelief.putHorizontalWall(1,2,8)
 
         # Posiciona fisicamente o agente no estado inicial
         initial = self.positionSensor()
@@ -28,12 +38,11 @@ class Agent:
         # Define o estado atual do agente = estado inicial
         self.currentState = self.prob.initialState
 
-        # @TODO T_AAFP - defina estado objetivo
         # Define o estado objetivo
-        # self.prob.defGoalState(?, ?)
+        self.prob.defGoalState(2, 8)
 
         # o metodo abaixo serve apenas para a view desenhar a pos objetivo
-        # self.model.setGoalPos(2,8)
+        self.model.setGoalPos(2,8)
 
         # Plano de busca - inicialmente vazio (equivale a solucao)
         self.plan = None
