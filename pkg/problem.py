@@ -43,6 +43,16 @@ class Problem:
         row = state.row
         col = state.col
 
+        if action == NO or action == N or action == NE:
+            row -= 1
+        elif action == SE or action == S or action == SO:
+            row += 1
+
+        if action == NE or action == L or action == SE: #vai para leste
+            col += 1
+        elif action == SO or action == O or action == NO:
+            col += 1
+
         # @TODO T_AAFP
         
         return State(row, col)
@@ -54,13 +64,36 @@ class Problem:
         Exemplo: se retornar [-1, -1, -1, 1, 1, -1, -1, -1] apenas as ações 3 e 4 podem ser executadas, ou seja, apenas SE e S.
         @param state: estado atual.
         @return ações possíveis"""
-        
         actions = [1,1,1,1,1,1,1,1] # Supõe que todas as ações são possíveis
         
-        # @TODO T_AAFP
-        
         row = state.row
-        col = state.col 
+        col = state.col
+
+        if state.row == self.maxRows: #não vai para o sul
+            actions[3] = -1
+            actions[4] = -1
+            actions[5] = -1
+        elif state.row == 0: #não vai para o norte
+            actions[-1] = -1
+            actions[0] = -1
+            actions[1] = -1
+
+        if state.col == self.maxColumns: #não vai para o leste
+            actions[1] = -1
+            actions[2] = -1
+            actions[3] = -1
+        elif state.col == 0: #não vai para o oeste
+            actions[-1] = -1
+            actions[-2] = -1
+            actions[-3] = -1
+
+        #if self.maze.walls[self.row + 1] == 1: #não vai para o sul
+        #    actions[4] = -1
+        
+
+    
+
+        # @TODO T_AAFP 
 
         return actions
 
