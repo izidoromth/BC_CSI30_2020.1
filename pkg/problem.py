@@ -68,12 +68,12 @@ class Problem:
         Exemplo: se retornar [-1, -1, -1, 1, 1, -1, -1, -1] apenas as ações 3 e 4 podem ser executadas, ou seja, apenas SE e S.
         @param state: estado atual.
         @return ações possíveis"""
-        actions = [1,1,1,1,1,1,1,1] # Supõe que todas as ações são possíveis
+        actions = [1, 1, 1, 1, 1, 1, 1, 1] # Supõe que todas as ações são possíveis
         
         row = state.row
         col = state.col
 
-        if state.row == self.maxRows: 
+        if state.row == self.maxRows - 1:
             actions[SE] = -1
             actions[S] = -1
             actions[SO] = -1
@@ -82,7 +82,7 @@ class Problem:
             actions[N] = -1
             actions[NE] = -1
 
-        if state.col == self.maxColumns: 
+        if state.col == self.maxColumns - 1:
             actions[NE] = -1
             actions[L] = -1
             actions[SE] = -1
@@ -91,27 +91,39 @@ class Problem:
             actions[O] = -1
             actions[NO] = -1
 
-        if self.mazeBelief.walls[state.col][state.row + 1] == 1:
-            actions[S] = -1
-        if self.mazeBelief.walls[state.col][state.row - 1] == 1:
-            actions[N] = -1
-        
-        if self.mazeBelief.walls[state.col + 1][state.row] == 1:
-            actions[L] = -1
-        if self.mazeBelief.walls[state.col - 1][state.row] == 1:
-            actions[O] = -1
-        
-        if self.mazeBelief.walls[state.col + 1][state.row + 1] == 1:
-            actions[SE] = -1
-        if self.mazeBelief.walls[state.col + 1][state.row - 1] == 1:
-            actions[NE] = -1
+        if state.row < self.maxRows - 1:
+            if self.mazeBelief.walls[state.row + 1][state.col] == 1:
+                actions[S] = -1
 
-        if self.mazeBelief.walls[state.col - 1][state.row + 1] == 1:
-            actions[SO] = -1
-        if self.mazeBelief.walls[state.col - 1][state.row - 1] == 1:
-            actions[NO] = -1
+        if state.row > 0:
+            if self.mazeBelief.walls[state.row - 1][state.col] == 1:
+                actions[N] = -1
 
-        # @TODO T_AAFP 
+        if state.col < self.maxColumns - 1:
+            if self.mazeBelief.walls[state.row][state.col + 1] == 1:
+                actions[L] = -1
+
+        if state.col > 0:
+            if self.mazeBelief.walls[state.row][state.col - 1] == 1:
+                actions[O] = -1
+
+        if state.col < self.maxColumns - 1 and state.row < self.maxRows - 1:
+            if self.mazeBelief.walls[state.row + 1][state.col + 1] == 1:
+                actions[SE] = -1
+
+        if state.col < self.maxColumns - 1 and state.row > 0:
+            if self.mazeBelief.walls[state.row - 1][state.col + 1] == 1:
+                actions[NE] = -1
+
+        if state.col > 0 and state.row < self.maxRows - 1:
+            if self.mazeBelief.walls[state.row + 1][state.col - 1] == 1:
+                actions[SO] = -1
+
+        if state.col > 0 and state.row > 0:
+            if self.mazeBelief.walls[state.row - 1][state.col - 1] == 1:
+                actions[NO] = -1
+
+        # @TODO T_AAFP
 
         return actions
 
@@ -144,5 +156,5 @@ class Problem:
         @param currentState: estado atual.
         @return True se o estado atual for igual ao estado objetivo."""
         if self.goalState == currentState:
-            return true # Utilizar Operador de igualdade definido em __eq__ no arquivo state.py
-        return false
+            return True # Utilizar Operador de igualdade definido em __eq__ no arquivo state.py
+        return False
